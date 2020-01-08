@@ -19,6 +19,7 @@ import (
 
 type Server struct {
 	Server http.Server
+    AssetsPath string
 
 	tpl    *template.Template
 	jslib  assets.Bundle
@@ -33,6 +34,7 @@ type Server struct {
 	games      map[string]*Game
 	imagePaths []string
 	mux        *http.ServeMux
+
 }
 
 func (s *Server) getGame(gameID, stateID string) (*Game, bool) {
@@ -292,12 +294,12 @@ func (s *Server) cleanupOldGames() {
 }
 
 func (s *Server) Start() error {
-	gameIDs, err := dictionary.Load("assets/game-id-words.txt")
+	gameIDs, err := dictionary.Load(fmt.Sprintf("%s/game-id-words.txt", s.AssetsPath))
 	if err != nil {
 		return err
 	}
 
-	var imagesAssetPath = "assets/images"
+	var imagesAssetPath = fmt.Sprintf("%s/images", s.AssetsPath)
 	s.images, err = assets.Development(imagesAssetPath)
 	if err != nil {
 		return err
@@ -316,19 +318,19 @@ func (s *Server) Start() error {
 	if err != nil {
 		return err
 	}
-	s.jslib, err = assets.Development("assets/jslib")
+	s.jslib, err = assets.Development(fmt.Sprintf("%s/jslib", s.AssetsPath))
 	if err != nil {
 		return err
 	}
-	s.js, err = assets.Development("assets/javascript")
+	s.js, err = assets.Development(fmt.Sprintf("%s/javascript", s.AssetsPath))
 	if err != nil {
 		return err
 	}
-	s.css, err = assets.Development("assets/stylesheets")
+	s.css, err = assets.Development(fmt.Sprintf("%s/stylesheets", s.AssetsPath))
 	if err != nil {
 		return err
 	}
-	s.other, err = assets.Development("assets/other")
+	s.other, err = assets.Development(fmt.Sprintf("%s/other"))
 	if err != nil {
 		return err
 	}

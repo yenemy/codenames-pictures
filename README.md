@@ -25,7 +25,7 @@ go install github.com/banool/codenames-pictures/...
 You'll still need to set up dependencies following this:
 ```
 cd bin
-ln -s ../src/github.com/banool/codenames-pictures/assets
+ln -s ../src/github.com/banool/codenames-pictures/assets_codenames
 ./codenames
 ```
 

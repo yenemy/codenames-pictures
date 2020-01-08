@@ -31,6 +31,7 @@ func main() {
 		Server: http.Server{
 			Addr: ":" + port,
 		},
+        AssetsPath: "assets_codenames",
 	}
 	fmt.Printf("Starting server on port %s...\n", port)
 	if err := server.Start(); err != nil {
