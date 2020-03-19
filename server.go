@@ -330,7 +330,7 @@ func (s *Server) Start() error {
 	if err != nil {
 		return err
 	}
-	s.other, err = assets.Development(fmt.Sprintf("%s/other"))
+	s.other, err = assets.Development(fmt.Sprintf("%s/other", s.AssetsPath))
 	if err != nil {
 		return err
 	}
