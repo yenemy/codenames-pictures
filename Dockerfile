@@ -1,14 +1,26 @@
-FROM golang:latest AS builder
-ADD . /app
-WORKDIR /app/server
-RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-w" -a -o /main .
+FROM golang:1.12-stretch
 
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-COPY --from=builder /main ./
-COPY --from=node_builder /build ./web
-RUN chmod +x ./main
-EXPOSE 9123
-CMD ./main
+# Install npm and parcel
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    npm install -g parcel-bundler
+    
+# Copy project into docker instance
+COPY . /app
+WORKDIR /app
 
+# Get the go app
+RUN go get -u github.com/banool/codenames-pictures
+
+# Build backend and frontend 
+RUN go build cmd/codenames/main.go && \
+    cd /app/frontend/ && \
+    npm install && \
+    sh build.sh
+
+# Expose 9091 port
+EXPOSE 9091/tcp
+
+# Set entrypoint command
+CMD /app/main
