@@ -41,7 +41,6 @@ const tpl = `
 
 			#topbar {
 			  padding: 1em;
-			  margin-bottom: 1em;
 			}
 
 			#topbar a {
@@ -61,7 +60,7 @@ const tpl = `
 			}
 
 			#game-view, .loading {
-				width: 700px;
+				width: 800px;
 				margin: 0 auto;
 			}
         </style>
